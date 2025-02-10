@@ -153,7 +153,7 @@
       border-radius: 10px;
       z-index: 1000;
     }
-    /* Nouvelle notification centrale pour messages de dépôt ou confirmation en attente */
+    /* Nouvelle notification centrale pour messages importants */
     #center-notification {
       display: none;
       position: fixed;
@@ -259,7 +259,7 @@
   
     <!-- Tableau des Transactions -->
     <h3>Transactions</h3>
-    <button id="show-transactions-btn" class="button">Confirmer votre commande </button>
+    <button id="show-transactions-btn" class="button">Voir les transactions</button>
     <div id="transactions-table" style="display: none;">
       <table>
         <thead>
@@ -328,9 +328,8 @@
   <div id="notification" class="notification"></div>
   <!-- Journal persistant des notifications visible pour tous -->
   <div id="notification-log"></div>
-  <!-- Nouvelle notification centrale pour messages importants -->
+  <!-- Notification centrale pour messages importants -->
   <div id="center-notification"></div>
-  
   <!-- Notification centrale pendant le minage -->
   <div id="mining-notification">Travail en cours...</div>
   
@@ -373,7 +372,7 @@
       log.appendChild(p);
     }
     
-    // Affiche un message au centre de la page pour un temps donné (en ms)
+    // Affiche un message centré pour un temps donné (en ms)
     function showCenteredNotification(message, duration) {
       const centerNotif = document.getElementById("center-notification");
       centerNotif.innerText = message;
@@ -398,8 +397,8 @@
         const now = Date.now();
         if (now < contractEnd) {
           const remainingTime = contractEnd - now;
-          // Affichage avec 3 décimales (exemple : 2590.000 seconde(s))
-          contractStatusElem.innerText = `Le robot travaille encore... Temps restant : ${(remainingTime/1000).toFixed(3)} seconde(s).`;
+          // Affichage en secondes entières
+          contractStatusElem.innerText = `Le robot travaille encore... Temps restant : ${Math.floor(remainingTime / 1000)} seconde(s).`;
         } else {
           contractStatusElem.innerText = "Contrat expiré.";
         }
@@ -700,6 +699,8 @@
     // Mise à jour des prix des cryptomonnaies toutes les 60 secondes
     updateCryptoPrices();
     setInterval(updateCryptoPrices, 60000);
+    // Mise à jour du compte à rebours du contrat toutes les secondes
+    setInterval(updateContractStatus, 1000);
   </script>
 </body>
 </html>
